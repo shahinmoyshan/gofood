@@ -472,3 +472,102 @@ body::selection {
         font-size: 16px;
     }
 }
+
+.account-sidebar {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.account-sidebar .nav-link {
+    color: var(--dark-bg);
+    padding: 12px 20px;
+    border-left: 3px solid transparent;
+    font-weight: 500;
+}
+
+.account-sidebar .nav-link:hover,
+.account-sidebar .nav-link.active {
+    color: var(--primary-red);
+    background-color: rgba(230, 57, 70, 0.05);
+    border-left-color: var(--primary-red);
+}
+
+.account-sidebar .nav-link i {
+    width: 24px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.account-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    height: 100%;
+    border-top: 3px solid var(--primary-red);
+}
+
+.account-card .count {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-red);
+}
+
+.order-table {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.order-table thead {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+.order-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-processing {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.btn-outline-red {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+}
+
+.btn-outline-red:hover {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary-red);
+}

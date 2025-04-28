@@ -19,6 +19,7 @@
 	<div class="form-group mb-4">
 		<label for="password" class="form-label">Password <span class="text-danger">*</span></label>
 		<input type="password" class="form-control form-control-lg fs-6 rounded-1" id="password" placeholder="*******">
+		<div class="form-text">Minimum 8 characters with at least one number</div>
 	</div>
 	
 	<div class="form-group mb-4">

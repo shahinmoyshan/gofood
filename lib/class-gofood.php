@@ -169,6 +169,9 @@ class GoFood {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_filter( 'query_vars', $plugin_public, 'add_query_vars' );
+		$this->loader->add_filter( 'init', $plugin_public, 'create_products_post_type' );
+		$this->loader->add_filter( 'init', $plugin_public, 'create_products_category_taxonomy' );
+		$this->loader->add_filter( 'add_meta_boxes', $plugin_public, 'add_product_meta_box' );
 	}
 
 	/**

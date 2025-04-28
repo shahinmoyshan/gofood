@@ -62,7 +62,12 @@
 									</div>
 								</div>
 								<div class="col-12 mt-2">
-									<button class="btn btn-primary-red w-100 py-3 fs-5 fw-bold text-uppercase">Place Order</button>
+									<button class="btn btn-primary-red w-100 py-3 fs-5 fw-bold"><i class="fas fa-lock me-2"></i> Place Order</button>
+									<div class="text-center mt-3">
+										<small class="text-muted">
+											<i class="fas fa-shield-alt me-1"></i> Secure checkout. Your information is protected.
+										</small>
+									</div>
 								</div>
 							</div>
 						</form>
@@ -70,9 +75,14 @@
 				</div>
 				<div class="col-md-5">
 					<div class="shadow-sm border rounded p-3">
-						<h5>Your Cart</h5>
+						<div class="d-flex justify-content-between align-items-center mb-3">
+							<h4 class="mb-0">
+								<i class="fas fa-shopping-cart me-2 text-primary-red"></i> Your Order
+							</h4>
+							<span class="badge bg-primary-red rounded-pill">2 items</span>
+						</div>
 						<hr>
-						<table class="table border mb-4">
+						<table class="table border">
 							<thead class="table-light">
 								<tr>
 									<th scope="col">Product</th>
@@ -88,22 +98,29 @@
 									<td>$20.00</td>
 								</tr>
 							</tbody>
-							<tfoot class="fw-semibold">
-								<tr>
-									<td>Subtotal</td>
-									<td>$20.00</td>
-								</tr>
-								<tr>
-									<td>Delivery</td>
-									<td>$5.00</td>
-								</tr>
-								<tr>
-									<td>Total</td>
-									<td><span class="fw-bold fs-5 text-dark-red">$25.00</span></td>
-								</tr>
-							</tfoot>
 						</table>
-						<h5>Payment</h5>
+						<!-- Order Summary -->
+						<div class="bg-light-red p-3 rounded-3 mb-3">
+							<h6 class="fw-bold mb-3">Order Summary</h6>
+							<div class="d-flex justify-content-between mb-2">
+								<span class="text-muted">Subtotal (3 items)</span>
+								<span>$28.50</span>
+							</div>
+							<div class="d-flex justify-content-between mb-2">
+								<span class="text-muted">Delivery Fee</span>
+								<span>$5.00</span>
+							</div>
+							<div class="d-flex justify-content-between mb-2">
+								<span class="text-muted">Tax</span>
+								<span>$1.43</span>
+							</div>
+							<hr class="my-2">
+							<div class="d-flex justify-content-between fw-bold fs-5">
+								<span>Total</span>
+								<span class="text-primary-red">$34.93</span>
+							</div>
+						</div>
+						<h5><i class="fas fa-credit-card me-2"></i> Payment</h5>
 						<hr>
 						<p class="text-muted mb-0">Pay with cash on delivery.</p>
 					</div>

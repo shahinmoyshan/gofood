@@ -48,3 +48,18 @@ if ( ! function_exists( 'gf_if_checkout_page' ) ) {
 		return is_page( get_option( 'gofood_checkout_page_id', '19' ) );
 	}
 }
+
+
+if ( ! function_exists( 'gf_price' ) ) {
+	/**
+	 * Formats a given price into a string with HTML structure for displaying.
+	 *
+	 * The formatted price includes a dollar currency symbol and ensures two decimal places.
+	 *
+	 * @param float $price The price to be formatted.
+	 * @return string The formatted price as an HTML string.
+	 */
+	function gf_price( $price ) {
+		return '<span class="gofood-Price-amount amount"><bdi><span class="gofood-Price-currencySymbol">$</span>' . number_format( $price, 2 ) . '</bdi></span>';
+	}
+}
