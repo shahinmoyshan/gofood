@@ -94,6 +94,12 @@ class GoFood_Admin {
 		 */
 
 		wp_enqueue_script( $this->theme_name, get_template_directory_uri() . '/app/admin/js/gofood-admin.js', array( 'jquery' ), $this->version, false );
+
+		$l18n = array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+		);
+
+		wp_localize_script( $this->theme_name, 'GOFOOD_OBJECT', $l18n );
 	}
 
 	/**
@@ -129,7 +135,7 @@ class GoFood_Admin {
 			'show_in_menu'  => true,
 			'menu_position' => 5,
 			'menu_icon'     => 'dashicons-carrot',
-			'supports'      => array( 'title', 'thumbnail' ),
+			'supports'      => array( 'title', 'thumbnail', 'excerpt' ),
 			'rewrite'       => array( 'slug' => 'product' ),
 			'show_in_rest'  => true,
 		);

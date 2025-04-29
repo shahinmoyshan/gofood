@@ -103,6 +103,11 @@ class GoFood {
 		include_once get_template_directory() . '/app/lib/class-gofood-loader.php';
 
 		/**
+		 * The class responsible for defining the cart functionality in this theme.
+		 */
+		include_once get_template_directory() . '/app/lib/class-gofood-cart.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		include_once get_template_directory() . '/app/admin/class-gofood-admin.php';
@@ -154,6 +159,13 @@ class GoFood {
 		$this->loader->add_action( 'wp_enqueue_scripts', $theme_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $theme_public, 'enqueue_scripts' );
 		$this->loader->add_filter( 'query_vars', $theme_public, 'add_query_vars' );
+		$this->loader->add_filter( 'wp_ajax_gf_cart', $theme_public, 'ajax_manage_cart' );
+		$this->loader->add_filter( 'wp_ajax_nopriv_gf_cart', $theme_public, 'ajax_manage_cart' );
+		$this->loader->add_filter( 'wp_ajax_gf_checkout', $theme_public, 'ajax_proceed_checkout' );
+		$this->loader->add_filter( 'wp_ajax_nopriv_gf_checkout', $theme_public, 'ajax_proceed_checkout' );
+		$this->loader->add_filter( 'wp_ajax_gf_auth', $theme_public, 'ajax_login_and_register' );
+		$this->loader->add_filter( 'wp_ajax_nopriv_gf_auth', $theme_public, 'ajax_login_and_register' );
+		$this->loader->add_filter( 'wp_ajax_ma_update_account', $theme_public, 'ajax_ma_update_account' );
 	}
 
 	/**

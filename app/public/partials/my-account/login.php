@@ -25,11 +25,11 @@ $active_tab = get_query_var( 'auth_active_tab', 'login' );
 							<img style="width: 50px;" class="mb-3" src="<?php echo esc_url( get_site_icon_url() ); ?>" alt="">
 						<?php endif ?>
 						<?php if ( 'register' === $active_tab ) : ?>
-							<h2>Register</h2>
-							<p>If you don't have an account with us, please register.</p>
+							<h2><?php echo esc_html__( 'Register', 'gofood' ); ?></h2>
+							<p><?php echo esc_html__( 'If you don\'t have an account with us, please register.', 'gofood' ); ?></p>
 						<?php else : ?>
-							<h2>Login</h2>
-							<p>If you have an account with us, please log in.</p>
+							<h2><?php echo esc_html__( 'Login', 'gofood' ); ?></h2>
+							<p><?php echo esc_html__( 'If you have an account with us, please log in.', 'gofood' ); ?></p>
 						<?php endif ?>
 					</div>
 
@@ -37,9 +37,9 @@ $active_tab = get_query_var( 'auth_active_tab', 'login' );
 
 					<div class="text-center mt-4 pt-2">
 						<?php if ( 'login' === $active_tab ) : ?>
-							<p class="mb-0">Don't have an account yet? <a href="<?php echo esc_url( gf_get_my_account_url() . '?auth_active_tab=register' ); ?>" class="text-decoration-none text-dark-red fw-semibold">Register Now</a></p>
+							<p class="mb-0"><?php echo esc_html__( 'Don\'t have an account yet?', 'gofood' ); ?> <a href="<?php echo esc_url( gf_get_my_account_url() . '?auth_active_tab=register' ); ?>" class="text-decoration-none text-dark-red fw-semibold"><?php echo esc_html__( 'Register Now', 'gofood' ); ?></a></p>
 						<?php else : ?>
-							<p class="mb-0">Already have an account? <a href="<?php echo esc_url( gf_get_my_account_url() . '?auth_active_tab=login' ); ?>" class="text-decoration-none text-dark-red fw-semibold">Login</a></p>
+							<p class="mb-0"><?php echo esc_html__( 'Already have an account?', 'gofood' ); ?> <a href="<?php echo esc_url( gf_get_my_account_url() . '?auth_active_tab=login' ); ?>" class="text-decoration-none text-dark-red fw-semibold"><?php echo esc_html__( 'Login', 'gofood' ); ?></a></p>
 						<?php endif ?>
 					</div>
 				</div>

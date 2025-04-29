@@ -11,6 +11,8 @@
 
 $is_home_page = is_front_page() || is_home();
 
+$is_logged_text = is_user_logged_in() ? __( 'Account' ) : __( 'Sign in' );
+
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -84,7 +86,7 @@ $is_home_page = is_front_page() || is_home();
 						?>
 						<?php if ( ! gf_if_my_account_page() ) : ?>
 							<div class="mb-4">
-								<a href="<?php echo esc_url( gf_get_my_account_url() ); ?>" class="d-lg-none btn btn-primary-red px-3 btn-sm">Sign in</a>
+								<a href="<?php echo esc_url( gf_get_my_account_url() ); ?>" class="d-lg-none btn btn-primary-red px-3 btn-sm"><?php echo esc_html( $is_logged_text ); ?></a>
 							</div>
 						<?php endif ?>
 					</div>
@@ -92,13 +94,16 @@ $is_home_page = is_front_page() || is_home();
 
 				<!-- Search and Cart -->
 				<div class="d-flex align-items-center">
-					<button onclick="openCart()" class="text-dark position-relative me-4 btn-reset" id="cart-btn">
-						<i class="fas fa-shopping-cart fa-lg"></i>
-						<span class="cart-count">3</span>
-					</button>
 					
+					<?php if ( ! gf_if_checkout_page() ) : ?>
+						<button onclick="openCart()" class="text-dark position-relative me-4 btn-reset" id="cart-btn">
+							<i class="fas fa-shopping-cart fa-lg"></i>
+							<span style="display: none;" class="cart-count gf_cart_count_label"></span>
+						</button>
+					<?php endif ?>
+
 					<?php if ( ! gf_if_my_account_page() ) : ?>
-						<a href="<?php echo esc_url( gf_get_my_account_url() ); ?>" class="<?php echo esc_attr( $is_home_page ? 'd-none d-lg-block' : '' ); ?> me-4 btn btn-primary-red px-3 btn-sm">Sign in</a>
+						<a href="<?php echo esc_url( gf_get_my_account_url() ); ?>" class="<?php echo esc_attr( $is_home_page ? 'd-none d-lg-block' : '' ); ?> me-4 btn btn-primary-red px-3 btn-sm"><?php echo esc_html( $is_logged_text ); ?></a>
 					<?php endif ?>
 						
 					<?php if ( $is_home_page ) : ?>
@@ -112,55 +117,43 @@ $is_home_page = is_front_page() || is_home();
 		</nav>
 	</header>
 
-	<aside id="cartDrawer">
-		<div class="wrapper">
-			
-			<div class="loading" style="display: none;">
-				<i class="fas fa-spinner fa-spin-pulse fs-5"></i>
-			</div>
+	<?php if ( ! gf_if_checkout_page() ) : ?>
+		<aside id="cartDrawer">
+			<div class="wrapper">
 
-			<div class="cart-header" style="margin-top: <?php echo esc_attr( is_admin_bar_showing() ? '45px' : '0px' ); ?>">
-				<h5 class="fw-bold mb-0">Your Cart</h5>
-				<button class="btn-reset" onclick="closeCart()">
-					<i class="fas fs-5 fa-times" id="closeCart"></i>
-				</button>
-			</div>
+				<div class="loading" style="display: none;">
+					<i class="fas fa-spinner fa-spin-pulse fs-5"></i>
+				</div>
 
-			<div class="cart-items">
-				<div class="cart-item">
-					<button class="btn-reset remove-cart-item">
-						<i class="fas fa-times"></i>
+				<div class="cart-header" style="margin-top: <?php echo esc_attr( is_admin_bar_showing() ? '45px' : '0px' ); ?>">
+					<h5 class="fw-bold mb-0">Your Cart</h5>
+					<button class="btn-reset" onclick="closeCart()">
+						<i class="fas fs-5 fa-times" id="closeCart"></i>
 					</button>
-					<a href=""><img src="https://img.cdn4dd.com/p/fit=cover,width=600,height=300,format=auto,quality=50/media/photosV2/8fc76aa1-1f86-4835-b5b7-1deecc3a7033-75bda54a-c832-4d4f-a472-f9d3ffe4d965-retina-large.jpg" alt=""></a>
-					<div class="cart-item-description">
-						<a href=""><h5>Ayozon Restora, Shahi Haleem Mix Pack</h5></a>
-						<div class="d-flex align-items-center justify-content-between">
-							<span><bdi><span class="gofood-Price-currencySymbol">$</span>20.00</bdi>&nbsp;<b>x2</b></span>
-							<span class="gofood-Price-amount amount"><bdi><span class="gofood-Price-currencySymbol">$</span>20.00</bdi></span>
+				</div>
+
+				<div class="cart-items" id="gf_cart_items_box"></div>
+
+				<div class="cart-actions">
+					<div class="my-3">
+						<div class="d-flex justify-content-between">
+							<span>Subtotal</span>
+							<span id="gf_cart_subtotal"></span>
+						</div>
+						<div class="d-flex justify-content-between">
+							<span>Delivery Fee</span>
+							<span>$0.00</span>
+						</div>
+						<div class="d-flex justify-content-between">
+							<span>Total</span>
+							<span id="gf_cart_total" class="fw-bold fs-5 text-dark-red"></span>
 						</div>
 					</div>
+					<a href="<?php echo esc_url( gf_get_checkout_url() ); ?>" class="btn btn-primary-red w-100">Checkout</a>
 				</div>
 			</div>
 
-			<div class="cart-actions">
-				<div class="my-3">
-					<div class="d-flex justify-content-between">
-						<span>Subtotal</span>
-						<span>$20.00</span>
-					</div>
-					<div class="d-flex justify-content-between">
-						<span>Delivery</span>
-						<span>$5.00</span>
-					</div>
-					<div class="d-flex justify-content-between">
-						<span>Total</span>
-						<span class="fw-bold fs-5 text-dark-red">$25.00</span>
-					</div>
-				</div>
-				<a href="<?php echo esc_url( gf_get_checkout_url() ); ?>" class="btn btn-primary-red w-100">Checkout</a>
-			</div>
-		</div>
+		</aside>
 
-	</aside>
-
-	<div id="cartDrawerOverlay" onclick="closeCart()" style="display: none;"></div>
+		<div id="cartDrawerOverlay" onclick="closeCart()" style="display: none;"></div>
+	<?php endif ?>

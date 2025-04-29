@@ -1,6 +1,6 @@
 {
     "phpcs.enable": true,
-    "phpcs.lintOnType": true,
+    "phpcs.lintOnSave": true,
     "phpcs.standard": "WordPress",
     "phpsab.standard": "WordPress",
     "[php]": {

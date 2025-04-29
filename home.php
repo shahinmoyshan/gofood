@@ -14,6 +14,36 @@
 
 get_header();
 
+// Get all product categories.
+$categories = gf_get_product_categories( true, true );
+
+// Get the current category ID.
+$current_category_id = get_query_var( 'gf_filter_category_id' );
+
+// Determine the current page.
+$current_page = max( 1, get_query_var( 'gf_page', 1 ) );
+
+// Set up query arguments.
+$args = array(
+	'post_type'      => 'product',
+	'posts_per_page' => 8,
+	'paged'          => $current_page,
+);
+
+// If a category ID is provided, add tax_query to filter products.
+if ( ! empty( $current_category_id ) ) {
+	$args['tax_query'] = array(
+		array(
+			'taxonomy' => 'product_category',
+			'field'    => 'term_id',
+			'terms'    => $current_category_id,
+		),
+	);
+}
+
+// Execute the query.
+$products_query = new WP_Query( $args );
+
 ?>
 
 <main id="primary" class="site-main">
@@ -40,87 +70,71 @@ get_header();
 	<section id="features-products">
 		<div class="container">
 			<div class="row">
-				<div class="col-12 pb-4 mb-2">
+				<div class="col-12 pb-4 mb-2 d-flex align-items-center justify-content-between">
 					<h3 class="fw-bold">Featured Products</h3>
+					<?php if ( $current_category_id ) : ?>
+						<a href="<?php echo esc_url( gf_get_category_url( 0, '#features-products' ) ); ?>" class="text-decoration-none text-dark-red fw-semibold"><?php echo esc_html__( 'View All' ); ?></a>
+					<?php endif ?>
 				</div>
 				<div class="col-12 mb-4 pb-2">
 					<div id="food-categories">
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/13325/13325375.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Pizza</span>
-						</a>
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/8504/8504028.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Thai</span>
-						</a>
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/3075/3075977.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Burgers</span>
-						</a>
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/9362/9362027.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Chinese</span>
-						</a>
-						
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/783/783075.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Desert</span>
-						</a>
-						
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/5087/5087281.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Fast Food</span>
-						</a>
-
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/6122/6122389.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Chicken</span>
-						</a>
-						
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/2718/2718224.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Asian</span>
-						</a>
-						
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/6920/6920176.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Japanese</span>
-						</a>
-						
-						<a href="" class="category-item">
-							<img src="https://cdn-icons-png.freepik.com/512/6483/6483896.png?ga=GA1.1.200560356.1727600189" alt="">
-							<span>Sushi</span>
-						</a>
+						<?php foreach ( $categories as $category ) : ?>
+							<a href="<?php echo esc_url( gf_get_category_url( $category['id'], '#features-products' ) ); ?>" class="category-item <?php echo esc_attr( intval( $current_category_id ) === intval( $category['id'] ) ? 'active' : '' ); ?>">
+								<img src="<?php echo esc_url( $category['image_url'] ); ?>" alt="<?php echo esc_html( $category['title'] ); ?>">
+								<span><?php echo esc_html( $category['title'] ); ?></span>
+							</a>
+						<?php endforeach; ?>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-6 col-md-4 col-lg-3">
-					<div class="product-item shadow-sm">
-						<a href="" class="product-item-img">
-							<span class="product-item-discount">Save 20%</span>
-							<img src="https://img.cdn4dd.com/p/fit=cover,width=600,height=300,format=auto,quality=50/media/photosV2/8fc76aa1-1f86-4835-b5b7-1deecc3a7033-75bda54a-c832-4d4f-a472-f9d3ffe4d965-retina-large.jpg" alt="">
-						</a>
-						<div class="product-item-description">
-							<a href=""><h4 class="product-item-title">Ayozon Restora, Shahi Haleem Mix for Family Pack 3x55</h4></a>
-							<div class="product-action">
-								<!-- <span class="gofood-Price-amount amount"><bdi><span class="gofood-Price-currencySymbol">$</span>22.00</bdi></span> -->
-								<span class="price"><del aria-hidden="true"><span class="amount"><bdi><span class="gofood-Price-currencySymbol">$</span>25.00</bdi></span></del> <span class="screen-reader-text">Original price was: $25.00.</span><ins aria-hidden="true"><span class="gofood-Price-amount amount"><bdi><span class="gofood-Price-currencySymbol">$</span>22.00</bdi></span></ins></span>
-								<button class="btn btn-outline-danger btn-sm">
-									<i class="fas fa-shopping-cart fs-5"></i>
-								</button>
-							</div>
-						</div>
+			<?php if ( $products_query->have_posts() ) : ?>
+				<div class="row">
+					<?php
+					while ( $products_query->have_posts() ) :
+						$products_query->the_post();
+						?>
+						<div class="col-6 col-md-4 col-lg-3">
+							<?php get_template_part( 'template-parts/content', 'product' ); ?>
+						</div>	
+					<?php endwhile ?>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<nav aria-label="Product pagination" class="mt-4">
+							<?php
+							echo wp_kses(
+								gf_get_paginate_links(
+									array(
+										'total'        => $products_query->max_num_pages,
+										'current'      => $current_page,
+										'type'         => 'list',
+										'mid_size'     => 2,
+										'prev_text'    => '<i class="fas fa-angle-left"></i>',
+										'next_text'    => '<i class="fas fa-angle-right"></i>',
+										'add_args'     => array( 'gf_filter_category_id' => $current_category_id ),
+										'add_fragment' => '#features-products',
+										'format'       => '?gf_page=%#%',
+									),
+									array(
+										'ul' => 'pagination justify-content-center',
+									)
+								),
+								true
+							);
+							?>
+						</nav>
 					</div>
 				</div>
-			</div>
+				<?php
+				wp_reset_postdata();
+			endif;
+			?>
 		</div>
 	</section>
 
 	<div class="section-spacer"></div>
 	
 </main>
-
 
 <?php
 get_footer();
