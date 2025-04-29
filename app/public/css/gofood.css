@@ -1,4 +1,8 @@
-:root {
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+ :root {
     --primary-red: #e63946;
     --dark-red: #e10101;
     --light-red: #ff686b;

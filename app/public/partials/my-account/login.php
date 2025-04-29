@@ -33,7 +33,7 @@ $active_tab = get_query_var( 'auth_active_tab', 'login' );
 						<?php endif ?>
 					</div>
 
-					<?php get_template_part( 'templates/my-account/form/auth', $active_tab ); ?>
+					<?php get_template_part( gf_partials_path( 'my-account/form/auth' ), $active_tab ); ?>
 
 					<div class="text-center mt-4 pt-2">
 						<?php if ( 'login' === $active_tab ) : ?>

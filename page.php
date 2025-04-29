@@ -22,9 +22,9 @@ get_header();
 			the_post();
 
 			if ( gf_if_my_account_page() ) :
-				get_template_part( 'templates/my-account/index' );
+				get_template_part( gf_partials_path( 'my-account/index' ) );
 			elseif ( gf_if_checkout_page() ) :
-				get_template_part( 'templates/cart/checkout' );
+				get_template_part( gf_partials_path( 'cart/checkout' ) );
 			else :
 
 				get_template_part( 'template-parts/content', 'page' );

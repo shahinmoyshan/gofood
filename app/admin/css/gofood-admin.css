@@ -1,0 +1,23 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+.gf_custom_meta_box_field {
+    display: flex;
+    gap: 10px;
+}
+
+.gf_custom_meta_box_field label {
+    min-width: 160px;
+}
+
+.gf_custom_meta_box_field:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .gf_custom_meta_box_field {
+        flex-direction: column;
+    }
+}

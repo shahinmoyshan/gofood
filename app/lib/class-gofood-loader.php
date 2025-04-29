@@ -1,6 +1,6 @@
 <?php
 /**
- * Register all actions and filters for the plugin
+ * Register all actions and filters for the theme
  *
  * @link  https://moyshan.netlify.app
  * @since 1.0.0
@@ -10,10 +10,10 @@
  */
 
 /**
- * Register all actions and filters for the plugin.
+ * Register all actions and filters for the theme.
  *
  * Maintain a list of all hooks that are registered throughout
- * the plugin, and register them with the WordPress API. Call the
+ * the theme, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
  * @package    GoFood
@@ -27,7 +27,7 @@ class GoFood_Loader {
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    array    $actions    The actions registered with WordPress to fire when the plugin loads.
+	 * @var    array    $actions    The actions registered with WordPress to fire when the theme loads.
 	 */
 	protected $actions;
 
@@ -36,7 +36,7 @@ class GoFood_Loader {
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    array    $filters    The filters registered with WordPress to fire when the plugin loads.
+	 * @var    array    $filters    The filters registered with WordPress to fire when the theme loads.
 	 */
 	protected $filters;
 

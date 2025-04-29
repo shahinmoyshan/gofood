@@ -1,25 +1,25 @@
 <?php
 /**
- * The admin-specific functionality of the plugin.
+ * The public-facing functionality of the theme.
  *
  * @link  https://moyshan.netlify.app
  * @since 1.0.0
  *
  * @package    GoFood
- * @subpackage GoFood/admin
+ * @subpackage GoFood/public
  */
 
 /**
- * The admin-specific functionality of the plugin.
+ * The public-facing functionality of the theme.
  *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
+ * Defines the theme name, version, and two examples hooks for how to
+ * enqueue the public-facing stylesheet and JavaScript.
  *
  * @package    GoFood
- * @subpackage GoFood/admin
+ * @subpackage GoFood/public
  * @author     Shahin Moyshan <shahin.moyshan2@gmail.com>
  */
-class GoFood_Admin {
+class GoFood_Public {
 
 	/**
 	 * The ID of this theme.
@@ -43,7 +43,7 @@ class GoFood_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
-	 * @param string $theme_name The name of this theme.
+	 * @param string $theme_name The name of the theme.
 	 * @param string $version     The version of this theme.
 	 */
 	public function __construct( $theme_name, $version ) {
@@ -53,7 +53,7 @@ class GoFood_Admin {
 	}
 
 	/**
-	 * Register the stylesheets for the admin area.
+	 * Register the stylesheets for the public-facing side of the site.
 	 *
 	 * @since 1.0.0
 	 */
@@ -71,11 +71,13 @@ class GoFood_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->theme_name, get_template_directory_uri() . '/admin/css/gofood-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'fontawesome', get_template_directory_uri() . '/assets/vendor/fontawesome/css/all.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/assets/vendor/bootstrap/bootstrap.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->theme_name, get_template_directory_uri() . '/app/public/css/gofood.css', array(), $this->version, 'all' );
 	}
 
 	/**
-	 * Register the JavaScript for the admin area.
+	 * Register the JavaScript for the public-facing side of the site.
 	 *
 	 * @since 1.0.0
 	 */
@@ -93,6 +95,19 @@ class GoFood_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->theme_name, get_template_directory_uri() . '/admin/js/gofood-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/assets/vendor/bootstrap/bootstrap.bundle.min.js', array(), $this->version, false );
+		wp_enqueue_script( $this->theme_name, get_template_directory_uri() . '/app/public/js/gofood.js', array( 'jquery' ), $this->version, false );
+	}
+
+	/**
+	 * Add custom query vars to the public query variables.
+	 *
+	 * @since 1.0.0
+	 * @param array $query_vars Existing query variables.
+	 */
+	public function add_query_vars( $query_vars ) {
+		$query_vars[] = 'auth_active_tab';
+		$query_vars[] = 'ma_active_tab';
+		return $query_vars;
 	}
 }

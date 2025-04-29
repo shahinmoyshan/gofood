@@ -63,3 +63,23 @@ if ( ! function_exists( 'gf_price' ) ) {
 		return '<span class="gofood-Price-amount amount"><bdi><span class="gofood-Price-currencySymbol">$</span>' . number_format( $price, 2 ) . '</bdi></span>';
 	}
 }
+
+if ( ! function_exists( 'gf_partials_path' ) ) {
+	/**
+	 * Retrieves the full path of a partial in the public directory.
+	 *
+	 * @param string $partial The name of the partial.
+	 * @param bool   $is_public Whether the partial is in the public directory or not.
+	 * @param bool   $full Whether to return the full path or not.
+	 * @return string The full path of the partial.
+	 */
+	function gf_partials_path( $partial, $is_public = true, $full = false ) {
+		$path = '/app/' . ( $is_public ? 'public' : 'admin' ) . '/partials/' . ltrim( $partial, '/' );
+
+		if ( $full ) {
+			return get_template_directory() . $path . '.php';
+		}
+
+		return $path;
+	}
+}

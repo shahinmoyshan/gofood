@@ -1,14 +1,14 @@
 <?php
 /**
- * Provide a admin area view for the plugin
+ * Provide a public-facing view for the theme
  *
- * This file is used to markup the admin-facing aspects of the plugin.
+ * This file is used to markup the public-facing aspects of the theme.
  *
  * @link  https://moyshan.netlify.app
  * @since 1.0.0
  *
  * @package    Wpsaleo
- * @subpackage Wpsaleo/admin/partials
+ * @subpackage Wpsaleo/public/partials
  */
 
 ?>

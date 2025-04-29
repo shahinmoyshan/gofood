@@ -1,6 +1,6 @@
 <?php
 /**
- * Fired during plugin activation
+ * Fired during theme deactivation
  *
  * @link  https://moyshan.netlify.app
  * @since 1.0.0
@@ -10,16 +10,16 @@
  */
 
 /**
- * Fired during plugin activation.
+ * Fired during theme deactivation.
  *
- * This class defines all code necessary to run during the plugin's activation.
+ * This class defines all code necessary to run during the theme's deactivation.
  *
  * @since      1.0.0
  * @package    GoFood
  * @subpackage GoFood/includes
  * @author     Shahin Moyshan <shahin.moyshan2@gmail.com>
  */
-class GoFood_Activator {
+class GoFood_Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -28,6 +28,6 @@ class GoFood_Activator {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function activate() {
+	public static function deactivate() {
 	}
 }
