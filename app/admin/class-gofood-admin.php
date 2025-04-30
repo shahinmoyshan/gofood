@@ -103,6 +103,18 @@ class GoFood_Admin {
 	}
 
 	/**
+	 * Add the "Manage Orders" menu page to the WordPress admin menu.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_admin_menu() {
+
+		require_once __DIR__ . '/class/class-gofood-orders.php';
+
+		add_menu_page( 'Orders', 'Manage Orders', 'manage_options', 'gofood-orders', array( GoFood_Orders::class, 'manage' ), 'dashicons-cart', 5 );
+	}
+
+	/**
 	 * Register the custom post type for products.
 	 *
 	 * This function sets up the custom post type 'product' with various

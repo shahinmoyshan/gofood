@@ -12,7 +12,7 @@ if ( ! function_exists( 'gf_get_my_account_url' ) ) {
 	 * @return string The permalink of the "My Account" page.
 	 */
 	function gf_get_my_account_url() {
-		return get_the_permalink( get_option( 'gofood_myaccount_page_id', '20' ) );
+		return get_the_permalink( get_option( 'gofood_myaccount_page_id' ) );
 	}
 }
 
@@ -23,7 +23,7 @@ if ( ! function_exists( 'gf_if_my_account_page' ) ) {
 	 * @return bool True if the current page is the "My Account" page, false otherwise.
 	 */
 	function gf_if_my_account_page() {
-		return is_page( get_option( 'gofood_myaccount_page_id', '20' ) );
+		return is_page( get_option( 'gofood_myaccount_page_id' ) );
 	}
 }
 
@@ -34,7 +34,7 @@ if ( ! function_exists( 'gf_get_checkout_url' ) ) {
 	 * @return string The permalink of the "Checkout" page.
 	 */
 	function gf_get_checkout_url() {
-		return get_the_permalink( get_option( 'gofood_checkout_page_id', '19' ) );
+		return get_the_permalink( get_option( 'gofood_checkout_page_id' ) );
 	}
 }
 
@@ -45,7 +45,7 @@ if ( ! function_exists( 'gf_if_checkout_page' ) ) {
 	 * @return bool True if the current page is the "Checkout" page, false otherwise.
 	 */
 	function gf_if_checkout_page() {
-		return is_page( get_option( 'gofood_checkout_page_id', '19' ) );
+		return is_page( get_option( 'gofood_checkout_page_id' ) );
 	}
 }
 
@@ -322,5 +322,43 @@ if ( ! function_exists( 'gf_get_product_snapshot' ) ) {
 		);
 
 		return $product_data;
+	}
+}
+
+
+if ( ! function_exists( 'format_hero_title' ) ) {
+	/**
+	 * Formats a hero title to wrap the first 2 or 3 words in a <span> with a class of "text-dark-red".
+	 *
+	 * @param string $title The title to format.
+	 *
+	 * @return string The formatted title.
+	 */
+	function format_hero_title( $title ) {
+		// Split the title into words.
+		$words = explode( ' ', $title );
+
+		// Determine how many words to wrap (first 2 or 3 words).
+		$wrap_count = ( count( $words ) >= 3 ) ? 3 : 2;
+
+		// Extract the words to wrap.
+		$wrapped_words   = array_slice( $words, 0, $wrap_count );
+		$remaining_words = array_slice( $words, $wrap_count );
+
+		// Create the formatted title.
+		$formatted = '<span class="text-dark-red">' . implode( ' ', $wrapped_words ) . '</span>';
+
+		// Add line break after first wrapped word if we have 3+ words.
+		if ( $wrap_count >= 2 && count( $words ) > 2 ) {
+			$formatted       = '<span class="text-dark-red">' . $words[0] . ' ' . $words[1] . ' <br> ' . $words[2] . '</span>';
+			$remaining_words = array_slice( $words, 3 );
+		}
+
+		// Combine with remaining words.
+		if ( ! empty( $remaining_words ) ) {
+			$formatted .= ' ' . implode( ' ', $remaining_words );
+		}
+
+		return $formatted;
 	}
 }

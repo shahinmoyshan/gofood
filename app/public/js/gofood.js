@@ -75,9 +75,9 @@
 					<button class="btn-reset remove-cart-item" onclick="removeFromCart(${item.product.id})">
 						<i class="fas fa-times"></i>
 					</button>
-					<a href=""><img src="${item.product.image}"></a>
+					<a href="${item.permalink}"><img src="${item.product.image}"></a>
 					<div class="cart-item-description">
-						<a href=""><h5>${item.product.title}</h5></a>
+						<a href="${item.permalink}"><h5>${item.product.title}</h5></a>
 						<div class="d-flex align-items-center justify-content-between">
 							<span>${price(cost)}&nbsp;<b>x${item.quantity}</b></span>
 							<span class="gofood-Price-amount amount">${price(cost * item.quantity)}</span>
@@ -98,6 +98,8 @@
 
     window.addToCart = (product_id, event) => {
         const button = event.target.closest('button');
+        const reset_btn_text = button.innerHTML;
+
         button.style.pointerEvents = 'none';
         button.style.opacity = '0.75';
         button.innerHTML = '<i class="fas fa-spinner fa-spin-pulse fs-5"></i>';
@@ -105,7 +107,7 @@
         const resetCartBtn = () => {
             button.style.pointerEvents = 'unset';
             button.style.opacity = 'unset';
-            button.innerHTML = '<i class="fas fa-shopping-cart fs-5"></i>';
+            button.innerHTML = reset_btn_text;
         };
 
         $.ajax({

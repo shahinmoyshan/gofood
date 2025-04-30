@@ -130,6 +130,7 @@ class GoFood_Public {
 		$query_vars[] = 'ma_active_tab';
 		$query_vars[] = 'gf_filter_category_id';
 		$query_vars[] = 'gf_page';
+		$query_vars[] = 'gf_order_success';
 		return $query_vars;
 	}
 
@@ -224,26 +225,29 @@ class GoFood_Public {
 		$sanitized_field = fn( $input ) => isset( $_POST[ $input ] ) ? sanitize_text_field( wp_unslash( $_POST[ $input ] ) ) : '';
 
 		$order_data = array(
-			'first_name'        => $sanitized_field( 'first_name' ),
-			'last_name'         => $sanitized_field( 'last_name' ),
-			'address'           => $sanitized_field( 'address' ),
-			'city'              => $sanitized_field( 'city' ),
-			'state'             => $sanitized_field( 'state' ),
-			'zipcode'           => $sanitized_field( 'zipcode' ),
-			'phone'             => $sanitized_field( 'phone' ),
-			'email'             => $sanitized_field( 'email' ),
-			'user_id'           => is_user_logged_in() ? get_current_user_id() : 0,
-			'subtotal'          => $subtotal,
-			'tax'               => 0,
-			'delivery_fee'      => 0,
-			'discounted_amount' => 0,
-			'total'             => $subtotal,
+			'first_name' => $sanitized_field( 'first_name' ),
+			'last_name'  => $sanitized_field( 'last_name' ),
+			'address'    => $sanitized_field( 'address' ),
+			'city'       => $sanitized_field( 'city' ),
+			'state'      => $sanitized_field( 'state' ),
+			'zipcode'    => $sanitized_field( 'zipcode' ),
+			'phone'      => $sanitized_field( 'phone' ),
+			'email'      => $sanitized_field( 'email' ),
+			'user_id'    => is_user_logged_in() ? get_current_user_id() : null,
+			'total'      => $subtotal,
+			'created_at' => gmdate( 'Y-m-d H:i:s' ),
 		);
 
+		$order_id = GoFood_Query::create( 'gf_orders', $order_data );
+
+		if ( ! $order_id ) {
+			wp_send_json_error( 'Order creation failed.', 404 );
+		}
+
 		$order_items = array_map(
-			function ( $item ) {
+			function ( $item ) use ( $order_id ) {
 				return array(
-					'order_id'   => 0,
+					'order_id'   => $order_id,
 					'product_id' => $item['product']['id'],
 					'quantity'   => $item['quantity'],
 					'price'      => $item['product']['discounted_price'] ?? $item['product']['price'],
@@ -252,8 +256,37 @@ class GoFood_Public {
 			$cart
 		);
 
-		var_dump( $order_items );
-		exit;
+		$items_stored = GoFood_Query::bulk_create( 'gf_order_items', $order_items );
+
+		if ( ! $items_stored ) {
+			// Delete the order.
+			GoFood_Query::delete( 'gf_orders', array( 'id' => $order_id ) );
+
+			wp_send_json_error( 'Order item creation failed.', 404 );
+		}
+
+		// Reduce product stock.
+		foreach ( $order_items as $item ) {
+			$quantity = get_post_meta( $item['product_id'], '_product_stock_quantity', true );
+			update_post_meta( $item['product_id'], '_product_stock_quantity', $quantity - $item['quantity'] );
+		}
+
+		GoFood_Cart::empty_cart();
+		GoFood_Cart::save_cart();
+
+		$order_token = wp_json_encode(
+			array(
+				'order_id' => $order_id,
+				'time'     => time(),
+			)
+		);
+
+		wp_send_json(
+			array(
+				'success' => true,
+				'url'     => gf_get_checkout_url() . '?gf_order_success=' . base64_encode( $order_token ),
+			)
+		);
 	}
 
 	/**

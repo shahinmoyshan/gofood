@@ -44,6 +44,8 @@ if ( ! empty( $current_category_id ) ) {
 // Execute the query.
 $products_query = new WP_Query( $args );
 
+$hero_title = get_theme_mod( 'gofood_hero_title', 'Fast, Fresh & Right To Your Door' );
+$hero_title = format_hero_title( $hero_title );
 ?>
 
 <main id="primary" class="site-main">
@@ -52,14 +54,14 @@ $products_query = new WP_Query( $args );
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 p-5 pb-4 ps-lg-0 text-center text-lg-start d-flex flex-column justify-content-center align-items-center align-items-lg-start">
-					<h1 class="display-4 fw-semibold"><span class="text-dark-red">Fast, Fresh <br/> & Right</span> To Your Door</h1>
-					<p class="fs-4 fw-light">Order dishes from favorite restaurants near you.</p>
+					<h1 class="display-4 fw-semibold hero-title"><?php echo wp_kses( $hero_title, true ); ?></h1>
+					<p class="fs-4 fw-light hero-description"><?php echo wp_kses( get_theme_mod( 'gofood_hero_description', 'Order dishes from favorite restaurants near you.' ), true ); ?></p>
 					<div class="mt-3">
-						<a href="" class="btn btn-primary-red d-inline-block px-4 fs-5">Shop Now</a>
+						<a href="<?php echo esc_html( get_theme_mod( 'gofood_hero_button_url', '#' ) ); ?>" class="btn btn-primary-red d-inline-block px-4 fs-5 hero-button"><?php echo esc_html( get_theme_mod( 'gofood_hero_button_text', 'Shop Now' ) ); ?></a>
 					</div>
 				</div>
 				<div class="col-lg-6 d-flex justify-content-center justify-content-lg-end">
-					<img id="hero-banner-img" class="mx-auto me-lg-0" src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/hero-banner.webp" alt="Hero Banner">
+					<img id="hero-banner-img" class="mx-auto me-lg-0 hero-image" src="<?php echo esc_url( get_theme_mod( 'gofood_hero_image', get_template_directory_uri() . '/assets/images/hero-banner.webp' ) ); ?>" alt="Hero Banner">
 				</div>
 			</div>
 		</div>
@@ -78,7 +80,13 @@ $products_query = new WP_Query( $args );
 				</div>
 				<div class="col-12 mb-4 pb-2">
 					<div id="food-categories">
-						<?php foreach ( $categories as $category ) : ?>
+						<?php
+						foreach ( $categories as $category ) :
+							if ( ! $category['image_url'] ) {
+								$category['image_url'] = get_template_directory_uri() . '/assets/images/food-empty-category.png';
+							}
+
+							?>
 							<a href="<?php echo esc_url( gf_get_category_url( $category['id'], '#features-products' ) ); ?>" class="category-item <?php echo esc_attr( intval( $current_category_id ) === intval( $category['id'] ) ? 'active' : '' ); ?>">
 								<img src="<?php echo esc_url( $category['image_url'] ); ?>" alt="<?php echo esc_html( $category['title'] ); ?>">
 								<span><?php echo esc_html( $category['title'] ); ?></span>
@@ -127,6 +135,17 @@ $products_query = new WP_Query( $args );
 				</div>
 				<?php
 				wp_reset_postdata();
+			else :
+				?>
+				<div class="row">
+					<div class="col-12">
+						<div class="text-center p-4 alert alert-warning">
+							<i class="fas fa-utensils fs-1 mb-2"></i>
+							<p class="mb-0"><?php echo esc_html__( 'No products found', 'gofood' ); ?></p>
+						</div>
+					</div>
+				</div>				
+				<?php
 			endif;
 			?>
 		</div>

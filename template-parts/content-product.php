@@ -15,6 +15,10 @@ $stock_quantity   = ! empty( $stock_quantity ) ? intval( $stock_quantity ) : 0;
 $discount_percent = gf_get_discount_percentage( $price, $discounted_price );
 $is_out_of_stock  = 0 === $stock_quantity;
 
+if ( ! $product_image ) {
+	$product_image = get_template_directory_uri() . '/assets/images/food-empty.webp';
+}
+
 ?>
 
 <article id="product-<?php the_ID(); ?>" class="product-item shadow-sm" style="<?php echo esc_attr( $is_out_of_stock ? 'opacity: 0.65; pointer-events: none; user-select:none;' : '' ); ?>">

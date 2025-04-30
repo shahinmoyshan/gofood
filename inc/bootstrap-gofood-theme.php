@@ -12,7 +12,7 @@
  * This action is documented in /app/bootstrap/class-gofood-activator.php
  */
 function activate_gofood() {
-	include_once get_template_directory() . '/app/bootstrap/class-gofood-activator.php';
+	include_once GOFOOD__THEME_DIR . '/app/bootstrap/class-gofood-activator.php';
 	GoFood_Activator::activate();
 }
 
@@ -21,7 +21,7 @@ function activate_gofood() {
  * This action is documented in /app/bootstrap/class-gofood-deactivator.php
  */
 function deactivate_gofood() {
-	include_once get_template_directory() . '/app/bootstrap/class-gofood-deactivator.php';
+	include_once GOFOOD__THEME_DIR . '/app/bootstrap/class-gofood-deactivator.php';
 	GoFood_Deactivator::deactivate();
 }
 
@@ -31,7 +31,7 @@ add_action( 'switch_theme', 'deactivate_gofood' );
 /**
  * Includes the GoFood class.
  */
-require_once get_template_directory() . '/app/bootstrap/class-gofood.php';
+require_once GOFOOD__THEME_DIR . '/app/bootstrap/class-gofood.php';
 
 /**
  * Initializes and runs the GoFood theme.

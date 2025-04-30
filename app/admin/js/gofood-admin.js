@@ -52,6 +52,127 @@
             // Open the modal
             mediaUploader.open();
         });
+
+        /**
+         * BREAD/CREAD and Form Helper Functions
+         */
+
+        $('#doaction').on('click', function () {
+            let action = $('#bulk-action-selector-top').val();
+            if (action != '-1') {
+                var values = [], form = $('#cb_bulk_action');
+                $('input[name="cb_field[]"]:checked').each(function () {
+                    if (this.checked) {
+                        values.push($(this).val());
+                    }
+                });
+                if (values.length > 0) {
+                    form.find('input[name="action"]').val(action);
+                    form.find('input#primary_key_input').val(values);
+                    if (action == 'delete') {
+                        if (confirm('are you sure to delete all of these ?')) {
+                            form.submit();
+                        }
+                    } else {
+                        form.submit();
+                    }
+                }
+            }
+        });
+
+        $('.ajax-select2').each(function () {
+            let action = $(this).data('action'), param = $(this).data('param'), url = $(this).data('url'), push = $(this).data('push');
+            $(this).select2({
+                tags: $(this).data('tag'),
+                allowClear: true,
+                minimumInputLength: 2,
+                ajax: {
+                    url: url,
+                    dataType: 'JSON',
+                    type: "POST",
+                    quietMillis: 50,
+                    data: function (term) {
+                        var query = 'action=' + action + '&param=' + param + '&term=' + term.term;
+                        if (push.length > 0) {
+                            query = query + '&push=' + $(push).val()
+                        }
+                        return query;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+        });
+
+        $('.wp-media').each(function () {
+            let target = $(this).data('target'), media_setup = {
+                title: $(this).data('uploadtitle'),
+                button: $(this).data('uploadbutton'),
+                multiple: false,
+                input: $('input[name="' + target + '"]'),
+                output: $('img[output="' + target + '"]')
+            };
+
+            $(this).on('click', 'label[for="' + target + '"], img[output="' + target + '"]', function (e) {
+                e.preventDefault();
+                wp_cutom_plugin_media_upload(media_setup);
+            });
+
+        });
+
+        $('.select_dropdown').each(function () {
+            let url = $(this).data('url'), param = $(this).data('param'), parent = $(this).data('parent'), select = $(this);
+            $(parent).on('change', function () {
+                let value = $(this).val();
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    data: { parent: value, param: param },
+                    beforeSend: function () {
+                        select.parent('.form-group').addClass('js_loading')
+                    },
+                })
+                    .done(function (options) {
+                        var html = '<option disabled>--Select Option--</option>';
+                        $.each(options, function (index, val) {
+                            html += '<option value="' + val.id + '">' + val.text + '</option>';;
+                        });
+                        select.html(html);
+                        select.val('');
+                    })
+                    .fail(function () {
+                        console.log("error");
+                    })
+                    .always(function () {
+                        select.parent('.form-group').removeClass('js_loading')
+                    });
+            });
+        });
+
     });
+
+
+    function wp_cutom_plugin_media_upload(setup) {
+        var images = wp.media({
+            title: setup.title,
+            button: {
+                text: setup.button,
+            },
+            multiple: setup.multiple
+        }).open().on("select", function () {
+            var attachment = images.state().get("selection").first().toJSON();
+            setup.input.val(attachment.id);
+            setup.output.attr('src', attachment.url);
+        });
+    }
 
 })(jQuery);

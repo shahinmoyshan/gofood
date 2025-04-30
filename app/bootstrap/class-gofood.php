@@ -108,6 +108,21 @@ class GoFood {
 		include_once get_template_directory() . '/app/lib/class-gofood-cart.php';
 
 		/**
+		 * The helper class responsible for performing database queries in this theme.
+		 */
+		include_once get_template_directory() . '/app/lib/class-gofood-query.php';
+
+		/**
+		 * The helper class responsible generating form elements.
+		 */
+		include_once get_template_directory() . '/app/lib/class-gofood-form.php';
+
+		/**
+		 * The helper class responsible performing CRUD/BREAD
+		 */
+		include_once get_template_directory() . '/app/lib/class-gofood-bread.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		include_once get_template_directory() . '/app/admin/class-gofood-admin.php';
@@ -143,6 +158,7 @@ class GoFood {
 		$this->loader->add_filter( 'init', $theme_admin, 'create_products_post_type' );
 		$this->loader->add_filter( 'init', $theme_admin, 'create_products_category_taxonomy' );
 		$this->loader->add_filter( 'add_meta_boxes', $theme_admin, 'add_product_meta_box' );
+		$this->loader->add_action( 'admin_menu', $theme_admin, 'add_admin_menu' );
 	}
 
 	/**

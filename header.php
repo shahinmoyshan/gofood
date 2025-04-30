@@ -39,14 +39,14 @@ $is_logged_text = is_user_logged_in() ? __( 'Account' ) : __( 'Sign in' );
 				<div class="container">
 					<div class="row align-items-center">
 						<div class="col-md-6">
-							<span class="me-3">Free delivery on orders over $20</span>
+							<span class="me-3 top-bar-delivery-text"><?php echo esc_html( get_theme_mod( 'gofood_delivery_text', 'Free delivery on orders over $20' ) ); ?></span>
 						</div>
 						<div class="col-md-6 text-end">
 							<div class="d-flex justify-content-end align-items-center">
 								<i class="fas fa-phone-alt me-2"></i>
-								<span class="me-3">+1 234-567-8900</span>
+								<span class="me-3 top-bar-phone"><?php echo esc_html( get_theme_mod( 'gofood_phone_number', '+1 234-567-8900' ) ); ?></span>
 								<i class="fas fa-envelope me-2"></i>
-								<span>help@gofood.com</span>
+								<span class="top-bar-email"><?php echo esc_html( get_theme_mod( 'gofood_email_address', 'help@gofood.com' ) ); ?></span>
 							</div>
 						</div>
 					</div>
